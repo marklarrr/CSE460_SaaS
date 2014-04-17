@@ -17,3 +17,24 @@ class Page(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class Tenant(models.Model):
+    company = models.CharField(unique=true)
+    username  = models.CharField(unique=true)
+    password = models.CharField(unique=true)
+    addproject = models.BooleanField(initial=false)
+    addRequirements = models.BooleanField(initial=false)
+    modifyProjectStatus = models.BooleanField(initial=false)
+    viewReqStatus = models.BooleanField(initial=false)
+    viewProjectsManager = models.BooleanField(initial=false)
+    modReqStatus = models.BooleanField(initial=false)
+    viewAssignedReqs = models.BooleanField(initial=false)
+    
+
+
+
+
+
+
+
+
