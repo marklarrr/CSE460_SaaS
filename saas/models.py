@@ -19,16 +19,16 @@ class Page(models.Model):
         return self.title
 
 class Tenant(models.Model):
-    company = models.CharField(unique=true)
-    username  = models.CharField(unique=true)
-    password = models.CharField(unique=true)
-    addproject = models.BooleanField(initial=false)
-    addRequirements = models.BooleanField(initial=false)
-    modifyProjectStatus = models.BooleanField(initial=false)
-    viewReqStatus = models.BooleanField(initial=false)
-    viewProjectsManager = models.BooleanField(initial=false)
-    modReqStatus = models.BooleanField(initial=false)
-    viewAssignedReqs = models.BooleanField(initial=false)
+    company = models.CharField(max_length = 128,unique=True)
+    username  = models.CharField(max_length = 128,unique=True)
+    password = models.CharField(max_length = 128,unique=True)
+    addproject = models.BooleanField()
+    addRequirements = models.BooleanField()
+    modifyProjectStatus = models.BooleanField()
+    viewReqStatus = models.BooleanField()
+    viewProjectsManager = models.BooleanField()
+    modReqStatus = models.BooleanField()
+    viewAssignedReqs = models.BooleanField()
     
 
 
