@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^saas/', include('saas.urls')), # ADD THIS NEW TUPLE!
+	
 )
 
 if settings.DEBUG:
@@ -23,4 +24,4 @@ if settings.DEBUG:
         'django.views.static',
         (r'media/(?P<path>.*)',
         'serve',
-        {'document_root': settings.MEDIA_ROOT}), )
+        {'document_root': settings.MEDIA_ROOT}),)
