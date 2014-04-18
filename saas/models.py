@@ -29,7 +29,62 @@ class Tenant(models.Model):
     viewProjectsManager = models.BooleanField()
     modReqStatus = models.BooleanField()
     viewAssignedReqs = models.BooleanField()
-    
+
+    def __unicode__(self):
+        return self.company
+
+
+
+
+class Manager(models.Model):
+    tenant = models.ForeignKey(Tenant)
+    firstName = models.CharField(max_length = 128)
+    lastName = models.CharField(max_length = 128)
+    username = models.CharField(max_length = 128, unique = True)
+    password = models.CharField(max_length = 128, unique = True)
+
+    def __unicode__(self):
+        return self.firstName
+
+class Worker(models.Model):
+    tenant = models.ForeignKey(Tenant)
+    manager = models.ForeignKey(Manager)
+    firstName = models.CharField(max_length = 128)
+    lastName = models.CharField(max_length = 128)
+    username = models.CharField(max_length = 128, unique = True)
+    password = models.CharField(max_length = 128, unique = True)
+
+    def __unicode__(self):
+        return self.firstName
+
+
+class Requirement(models.Model):
+    tenant = models.ForeignKey(Tenant)
+    worker = models.ForeignKey(Worker)
+   # project = models.ForeignKey(Project)
+    manager = models.ForeignKey(Manager)
+    timeReq = models.IntegerField(default=0)
+    description = models.CharField(max_length=300)
+    reqType = models.CharField(max_length=300)
+
+    def __unicode__(self):
+        return self.timeReq
+
+
+class Project(models.Model):
+    tenant = models.ForeignKey(Tenant)
+    manager = models.ForeignKey(Manager)
+    worker = models.ManyToManyField(Worker, verbose_name = "list of workers")
+    requirement = models.ManyToManyField(Requirement, verbose_name = "list of requirments")
+    name = models.CharField(max_length = 128, unique=True)
+    startDate = models.DateField()
+    endDate = models.DateField()
+    status = models.BooleanField()
+
+    def __unicode__(self):
+        return self.name
+
+
 
 
 
