@@ -21,9 +21,6 @@ class Page(models.Model):
         return self.title
 
 class Tenant(models.Model):
-    company = models.CharField(max_length = 128,unique=True)
-    username  = models.CharField(max_length = 128,unique=True)
-    password = models.CharField(max_length = 128,unique=True)
     addproject = models.BooleanField()
     addRequirements = models.BooleanField()
     modifyProjectStatus = models.BooleanField()
@@ -89,14 +86,20 @@ class Project(models.Model):
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
-
+    addproject = models.BooleanField()
+    addRequirements = models.BooleanField()
+    modifyProjectStatus = models.BooleanField()
+    viewReqStatus = models.BooleanField()
+    viewProjectsManager = models.BooleanField()
+    modReqStatus = models.BooleanField()
+    viewAssignedReqs = models.BooleanField()
     # The additional attributes we wish to include.
     website = models.URLField(blank=True)
     
 
     # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
-        return self.user.username
+        return self.addproject
 
 
 
