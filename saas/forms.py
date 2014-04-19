@@ -1,5 +1,5 @@
 from django import forms
-from saas.models import UserProfile
+from saas.models import UserProfile, Tenant
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
@@ -11,6 +11,6 @@ class UserForm(forms.ModelForm):
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
-        fields = ('website',)
+        model = Tenant
+        fields = ('company','addproject',)
 
