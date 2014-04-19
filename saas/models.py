@@ -95,11 +95,6 @@ class UserProfile(models.Model):
     viewAssignedReqs = models.BooleanField()
     # The additional attributes we wish to include.
     website = models.URLField(blank=True)
-    
-
-    # Override the __unicode__() method to return out something meaningful!
-    def __unicode__(self):
-        return self.addproject
 
 
 

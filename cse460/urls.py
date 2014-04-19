@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 	url(r'^$', include('saas.urls')),
 	url(r'^saas/register/$', views.register, name='register'),# ADD THIS NEW TUPLE!
-	
+	url(r'^saas/home/$', views.home, name='home'),
 )
 '''
 if settings.DEBUG:
