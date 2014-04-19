@@ -15,7 +15,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-	url(r'^$', include('saas.urls')), # ADD THIS NEW TUPLE!
+	url(r'^$', include('saas.urls')),
+	url(r'^saas/register/$', views.register, name='register'),# ADD THIS NEW TUPLE!
 	
 )
 '''
