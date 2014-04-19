@@ -4,7 +4,9 @@ from django.shortcuts import render_to_response
 from saas.models import Category
 from saas.models import Page
 
-
+def home(request):
+    return render_to_response('saas/home.html')
+    
 def index(request):
     # Obtain the context from the HTTP request.
     context = RequestContext(request)
