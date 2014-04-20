@@ -21,6 +21,7 @@ class Page(models.Model):
         return self.title
 
 class Tenant(models.Model):
+
     addproject = models.BooleanField()
     addRequirements = models.BooleanField()
     modifyProjectStatus = models.BooleanField()
@@ -86,6 +87,7 @@ class Project(models.Model):
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
+
     addproject = models.BooleanField()
     addRequirements = models.BooleanField()
     modifyProjectStatus = models.BooleanField()
@@ -93,8 +95,9 @@ class UserProfile(models.Model):
     viewProjectsManager = models.BooleanField()
     modReqStatus = models.BooleanField()
     viewAssignedReqs = models.BooleanField()
-    # The additional attributes we wish to include.
-    website = models.URLField(blank=True)
+
+    def __unicode__(self):
+        return self.user.username
 
 
 

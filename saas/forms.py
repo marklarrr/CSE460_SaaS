@@ -1,5 +1,5 @@
 from django import forms
-from saas.models import UserProfile, Tenant, Worker
+from saas.models import UserProfile
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
