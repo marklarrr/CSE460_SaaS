@@ -19,6 +19,7 @@ urlpatterns = patterns('',
 	url(r'^saas/register/$', views.register, name='register'),# ADD THIS NEW TUPLE!
 	url(r'^saas/home/$', views.home, name='home'),
     url(r'^saas/login/$', views.user_login, name='login'),
+    url(r'^saas/addProject/$', views.addProject, name='addProject'),
 )
 '''
 if settings.DEBUG:
