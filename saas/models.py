@@ -36,11 +36,10 @@ class Page(models.Model):
         return self.title
 
 class Manager(models.Model):
+    user = models.OneToOneField(User)
     tenant = models.ForeignKey(UserProfile)
     firstName = models.CharField(max_length = 128)
     lastName = models.CharField(max_length = 128)
-    username = models.CharField(max_length = 128, unique = True)
-    password = models.CharField(max_length = 128, unique = True)
 
     def __unicode__(self):
         return self.firstName

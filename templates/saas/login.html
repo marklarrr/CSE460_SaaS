@@ -2,11 +2,11 @@
 <html>
     <head>
         <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
-        <title>Rango</title>
+        <title>Log In</title>
     </head>
 
     <body>
-        <h1>Login to Rango</h1>
+        <h1>Tenant Log In</h1>
 
         <form id="login_form" method="post" action="/saas/login/">
             {% csrf_token %}
@@ -17,6 +17,8 @@
 
             <input type="submit" value="submit" />
         </form>
+
+    <p><a href="/saas/register">Don't have an account? Register Here</a><br /></p>
 
     </body>
 </html>
