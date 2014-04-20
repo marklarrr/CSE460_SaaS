@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^saas/addProject/$', views.addProject, name='addProject'),
     url(r'^saas/addRequirement/$', views.addRequirement, name='addRequirement'),
     url(r'^saas/addManager/$', views.addManager, name='addManager'),
+    url(r'^saas/addWorker/$', views.addWorker, name='addWorker'),
+    url(r'^saas/Tenanthome/$', views.tenantHome, name='Tenanthome'),
 )
 '''
 if settings.DEBUG:

@@ -1,5 +1,5 @@
 from django import forms
-from saas.models import UserProfile, Project, Requirement, Manager
+from saas.models import UserProfile, Project, Requirement, Manager, Worker
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
@@ -29,3 +29,8 @@ class addManagerForm(forms.ModelForm):
     class Meta:
         model = Manager
         fields = ('tenant','firstName','lastName')
+
+class addWorkerForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = ('tenant','manager','firstName','lastName')
