@@ -3,6 +3,21 @@ from django.contrib.auth.models import User
 
 
 # Create your models here.
+class UserProfile(models.Model):
+    # This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+
+    addproject = models.BooleanField()
+    addRequirements = models.BooleanField()
+    modifyProjectStatus = models.BooleanField()
+    viewReqStatus = models.BooleanField()
+    viewProjectsManager = models.BooleanField()
+    modReqStatus = models.BooleanField()
+    viewAssignedReqs = models.BooleanField()
+
+    def __unicode__(self):
+        return self.user.username
+
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
     views = models.IntegerField(default=0)
@@ -20,24 +35,8 @@ class Page(models.Model):
     def __unicode__(self):
         return self.title
 
-class Tenant(models.Model):
-
-    addproject = models.BooleanField()
-    addRequirements = models.BooleanField()
-    modifyProjectStatus = models.BooleanField()
-    viewReqStatus = models.BooleanField()
-    viewProjectsManager = models.BooleanField()
-    modReqStatus = models.BooleanField()
-    viewAssignedReqs = models.BooleanField()
-
-    def __unicode__(self):
-        return self.company
-
-
-
-
 class Manager(models.Model):
-    tenant = models.ForeignKey(Tenant)
+    tenant = models.ForeignKey(UserProfile)
     firstName = models.CharField(max_length = 128)
     lastName = models.CharField(max_length = 128)
     username = models.CharField(max_length = 128, unique = True)
@@ -47,7 +46,7 @@ class Manager(models.Model):
         return self.firstName
 
 class Worker(models.Model):
-    tenant = models.ForeignKey(Tenant)
+    tenant = models.ForeignKey(UserProfile)
     manager = models.ForeignKey(Manager)
     firstName = models.CharField(max_length = 128)
     lastName = models.CharField(max_length = 128)
@@ -59,7 +58,7 @@ class Worker(models.Model):
 
 
 class Requirement(models.Model):
-    tenant = models.ForeignKey(Tenant)
+    tenant = models.ForeignKey(UserProfile)
     worker = models.ForeignKey(Worker)
    # project = models.ForeignKey(Project)
     manager = models.ForeignKey(Manager)
@@ -68,11 +67,12 @@ class Requirement(models.Model):
     reqType = models.CharField(max_length=300)
 
     def __unicode__(self):
-        return self.timeReq
-
+        return self.description
 
 class Project(models.Model):
-    tenant = models.ForeignKey(Tenant)
+
+    tenant = models.ForeignKey(UserProfile)
+
     manager = models.ForeignKey(Manager)
     worker = models.ManyToManyField(Worker, verbose_name = "list of workers")
     requirement = models.ManyToManyField(Requirement, verbose_name = "list of requirments")
@@ -83,21 +83,6 @@ class Project(models.Model):
 
     def __unicode__(self):
         return self.name
-
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-
-    addproject = models.BooleanField()
-    addRequirements = models.BooleanField()
-    modifyProjectStatus = models.BooleanField()
-    viewReqStatus = models.BooleanField()
-    viewProjectsManager = models.BooleanField()
-    modReqStatus = models.BooleanField()
-    viewAssignedReqs = models.BooleanField()
-
-    def __unicode__(self):
-        return self.user.username
 
 
 
