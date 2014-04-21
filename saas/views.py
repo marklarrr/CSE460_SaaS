@@ -1,12 +1,16 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from saas.models import Category, Page, UserProfile
+from saas.models import Category, Page, UserProfile, Worker, Manager
 from saas.forms import UserForm, UserProfileForm, addProjectForm, addRequirementForm, addManagerForm, addWorkerForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
     
 def index(request):
+<<<<<<< HEAD
+    # Obtain the context from the HTTP request.
+=======
+>>>>>>> 26c8d4eac9d5e3d5d68c870970b3711df8a8dfb8
     return render_to_response('saas/websitehomepage.html')
 
 def category(request, category_name_url):
@@ -141,7 +145,8 @@ def user_login(request):
                 #     # We'll send the user back to the homepage.
                 #     login(request, user)
                 #     return HttpResponseRedirect('/saas/login')
-                # else:
+                else:
+                    return HttpResponse("You are not a tennant!")
                 #     # An inactive account was used - no logging in!
                 #     return HttpResponse("Your account is disabled.")
             else:
@@ -360,3 +365,95 @@ def tenantHome(request):
 
     return render_to_response('saas/Tenanthome.html',
                               {'service_list': service_list},context)
+
+def worker_login(request):
+    context = RequestContext(request)
+
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+
+        # If we have a User object, the details are correct.
+        # If None (Python's way of representing the absence of a value), no user
+        # with matching credentials was found.
+
+        all_workers = Worker.objects.all()
+        print all_workers
+
+        for e in all_workers:
+            test = e.user.username
+            if user is not None:
+                if username == test:
+                    if user.is_active:
+                        login(request,user)
+                        print "going to dashboard"
+                        return HttpResponseRedirect('/saas/Dashboard')
+                else:
+                    return HttpResponse("You are not a Worker!")
+                
+            else:
+                # Bad login details were provided. So we can't log the user in.
+                print "Invalid login details: {0}, {1}".format(username, password)
+                return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render_to_response('saas/WorkerLogin.html', {}, context)
+
+def manager_login(request):
+    context = RequestContext(request)
+
+    # If the request is a HTTP POST, try to pull out the relevant information.
+    if request.method == 'POST':
+        # Gather the username and password provided by the user.
+        # This information is obtained from the login form.
+        username = request.POST['username']
+        password = request.POST['password']
+
+        # Use Django's machinery to attempt to see if the username/password
+        # combination is valid - a User object is returned if it is.
+        user = authenticate(username=username, password=password)
+
+        # If we have a User object, the details are correct.
+        # If None (Python's way of representing the absence of a value), no user
+        # with matching credentials was found.
+        all_managers = Manager.objects.all()
+
+        print all_managers
+
+        for e in all_managers:
+            test = e.user.username
+            if user is not None:
+                if username == test:
+                    if user.is_active:
+                        login(request,user)
+                        print "going to Dashboard"
+                        return HttpResponseRedirect('/saas/Dashboard')
+                else:
+                    return HttpResponse("You are not a Manager!")
+                
+            else:
+                # Bad login details were provided. So we can't log the user in.
+                print "Invalid login details: {0}, {1}".format(username, password)
+                return HttpResponse("Invalid login details supplied.")
+
+    # The request is not a HTTP POST, so display the login form.
+    # This scenario would most likely be a HTTP GET.
+    else:
+        # No context variables to pass to the template system, hence the
+        # blank dictionary object...
+        return render_to_response('saas/managerLogin.html', {}, context)
+
+def Dashboard(request):
+    return render_to_response('saas/Dashboard.html')
+
