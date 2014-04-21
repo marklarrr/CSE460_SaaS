@@ -7,10 +7,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
     
 def index(request):
-<<<<<<< HEAD
-    # Obtain the context from the HTTP request.
-=======
->>>>>>> 26c8d4eac9d5e3d5d68c870970b3711df8a8dfb8
     return render_to_response('saas/websitehomepage.html')
 
 def category(request, category_name_url):
