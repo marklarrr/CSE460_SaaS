@@ -489,7 +489,31 @@ def workerHome(request):
                               {'linklist': linklist}, context)
 
 
+def viewRequirements(request):
 
+    context = RequestContext(request)
+    worker_list = Worker.objects.all()
+    current_user = request.user.username
+    requirement_list = Requirement.objects.all()
+    worker_requirements = []
+
+    for e in worker_list:
+        user = e.user.username
+        valid = e.tenant.viewAssignedReqs
+        if current_user == user and valid == 1:
+            for requirement in requirement_list:
+                test = requirement.worker.user.username
+                if current_user == test:
+                    worker_requirements.append("Description: " + requirement.description)
+                    worker_requirements.append("Requirement Type: " + requirement.reqType)
+                    worker_requirements.append("Time Required: " + str(requirement.timeReq))
+
+
+    print worker_requirements
+
+
+    return render_to_response('saas/viewAssignedRequirements.html',
+                                {'worker_requirements': worker_requirements}, context)
 
 
 
