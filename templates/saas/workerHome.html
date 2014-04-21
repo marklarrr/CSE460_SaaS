@@ -5,9 +5,17 @@
 {#    <p>{{ e }}</p>#}
 {#{% endfor %}#}
 
-<p>You have access to the following requirements:</p>
+{#<p>You have access to the following tasks:</p>#}
+{#{%  for e in linklist %}#}
+{#    <p><a href="/saas/'{{ linklist.e }}'/">{{ e }}</a></p>#}
+{#{% endfor %}#}
 
-<a href="/saas/viewAssignedRequirements">{{ worker_requirements.0 }}</a>
+{% if linklist.0 == 'viewAssignedRequirements' or linklist.1 == 'viewAssignedRequirements' %}
+    <p><a href="/saas/viewAssignedRequirements/">View Assigned Requirements</a></p>
+{% endif %}
+{% if linklist.0 == 'modifyProjectStatus' or linklist.1 == 'modifyProjectStatus' %}
+     <p><a href="/saas/modifyProjectStatus/">Modify Project Status</a></p>
+{% endif %}
 
 
 
