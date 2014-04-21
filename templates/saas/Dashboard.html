@@ -1,1 +1,26 @@
-<h1>DASHBOARD<h1>
+<h1>MANAGER DASHBOARD</h1>
+
+{% if linklist.0 == 'addProject' or linklist.1 == 'addProject' or linklist.2 == 'addProject' or linklist.3 == 'addProject' or linklist.4 == 'addProject' %}
+    <p><a href="/saas/addProject/">Add Project</a></p>
+{% endif %}
+{% if linklist.0 == 'addRequirements' or linklist.1 == 'addRequirements' or linklist.2 == 'addRequirements' or linklist.3 == 'addRequirements' or linklist.4 == 'addRequirements' %}
+     <p><a href="/saas/addRequirement/">Add Requirements</a></p>
+{% endif %}
+{% if linklist.0 == 'modifyProjectStatus' or linklist.1 == 'modifyProjectStatus' or linklist.2 == 'modifyProjectStatus' or linklist.3 == 'modifyProjectStatus' or linklist.4 == 'modifyProjectStatus' %}
+    <p><a href="/saas/modifyProjectStatus/">Modify Project Status</a></p>
+{% endif %}
+{% if linklist.0 == 'viewReqStatus' or linklist.1 == 'viewReqStatus' or linklist.2 == 'viewReqStatus' or linklist.3 == 'viewReqStatus' or linklist.4 == 'viewReqStatus' %}
+    <p><a href="/saas/viewRequirement/">View Requirement Status</a></p>
+{% endif %}
+{% if linklist.0 == 'viewProjectManager' or linklist.1 == 'viewProjectManager' or linklist.2 == 'viewProjectManager' or linklist.3 == 'viewProjectManager' or linklist.4 == 'viewProjectManager' %}
+    <p><a href="/saas/viewManagerProjects/">View Added Projects</a></p>
+{% endif %}
+
+
+
+    {% if user.is_authenticated %}
+    <h1>Logged in!{{ user.username }}</h1>
+    <a href="/saas/logout/">Logout</a><br />
+    {% else %}
+    <h1>Not logged in</h1>
+    {% endif %}

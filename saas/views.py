@@ -417,7 +417,38 @@ def manager_login(request):
         return render_to_response('saas/managerLogin.html', {}, context)
 
 def Dashboard(request):
-    return render_to_response('saas/Dashboard.html')
+
+    context = RequestContext(request)
+    current_user = request.user.username
+
+    manager_list = Manager.objects.all()
+    linklist = []
+
+    project_list = Project.objects.all()
+    plist = []
+
+
+    for e in manager_list:
+        user = e.user.username
+        valid1 = e.tenant.addproject
+        valid2 = e.tenant.addRequirements
+        valid3 = e.tenant.modifyProjectStatus
+        valid4 = e.tenant.viewReqStatus
+        valid5 = e.tenant.viewProjectsManager
+        if current_user == user:
+            if valid1:
+                linklist.append("addProject")
+            if valid2:
+                linklist.append("addRequirements")
+            if valid3:
+                linklist.append("modifyProjectStatus")
+            if valid4:
+                linklist.append("viewReqStatus")
+            if valid5:
+                linklist.append("viewProjectManager")
+
+    return render_to_response('saas/Dashboard.html',
+                              {'linklist': linklist}, context)
 
 def workerHome(request):
     context = RequestContext(request)
@@ -435,7 +466,7 @@ def workerHome(request):
     for e in worker_list:
         user = e.user.username
         valid1 = e.tenant.viewAssignedReqs
-        valid2 = e.tenant.modifyProjectStatus
+        valid2 = e.tenant.modReqStatus
         if current_user == user:
             if valid1:
                 linklist.append("viewAssignedRequirements")
