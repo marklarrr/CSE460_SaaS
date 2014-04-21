@@ -14,6 +14,7 @@ class UserProfile(models.Model):
     viewProjectsManager = models.BooleanField(default = False)
     modReqStatus = models.BooleanField(default = False)
     viewAssignedReqs = models.BooleanField(default = False)
+    websiteRank = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.user.username
@@ -40,6 +41,7 @@ class Manager(models.Model):
     tenant = models.ForeignKey(UserProfile)
     firstName = models.CharField(max_length = 128)
     lastName = models.CharField(max_length = 128)
+    websiteRank = models.IntegerField(default=2)
 
     def __unicode__(self):
         return self.firstName
@@ -50,6 +52,7 @@ class Worker(models.Model):
     manager = models.ForeignKey(Manager)
     firstName = models.CharField(max_length = 128)
     lastName = models.CharField(max_length = 128)
+    websiteRank = models.IntegerField(default=3)
 
     def __unicode__(self):
         return self.firstName

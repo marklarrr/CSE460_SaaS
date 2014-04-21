@@ -24,9 +24,10 @@ urlpatterns = patterns('',
     url(r'^saas/Tenanthome/$', views.tenantHome, name='Tenanthome'),
     url(r'^saas/logout/$', views.user_logout, name='logout'),
     url(r'^saas/websitehomepage/$', views.index, name='home'),
-    url(r'^saas/managerLogin/$', views.manager_login, name='ManagerLogin'),
+    url(r'^saas/ManagerLogin/$', views.manager_login, name='ManagerLogin'),
     url(r'^saas/WorkerLogin/$', views.worker_login, name='WorkerLogin'),
     url(r'^saas/Dashboard/$', views.Dashboard, name='Dashboard'),
+    url(r'^saas/workerHome/$', views.worker_login, name='workerHome'),
 )
 '''
 if settings.DEBUG:

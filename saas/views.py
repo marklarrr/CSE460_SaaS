@@ -1,6 +1,6 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from saas.models import Category, Page, UserProfile, Worker, Manager
+from saas.models import Category, Page, UserProfile, Worker, Manager, Project, Requirement
 from saas.forms import UserForm, UserProfileForm, addProjectForm, addRequirementForm, addManagerForm, addWorkerForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -125,32 +125,17 @@ def user_login(request):
         # with matching credentials was found.
 
         all_tenants = UserProfile.objects.all()
-        print all_tenants
 
-        for e in all_tenants:
-            test = e.user.username
-            if user is not None:
-                if username == test:
-                    if user.is_active:
-                        login(request,user)
-                        print "going to tenanthome"
-                        return HttpResponseRedirect('/saas/Tenanthome')
-                # # Is the account active? It could have been disabled.
-                # elif user.is_active and username != test:
-                #     # If the account is valid and active, we can log the user in.
-                #     # We'll send the user back to the homepage.
-                #     login(request, user)
-                #     return HttpResponseRedirect('/saas/login')
+        for tenant in all_tenants:
+            tester = tenant.user.username
+            if username == tester:
+                if user.is_active:
+                    login(request,user)
+                    return HttpResponseRedirect('/saas/Tenanthome')
                 else:
-                    return HttpResponse("You are not a tennant!")
-                #     # An inactive account was used - no logging in!
-                #     return HttpResponse("Your account is disabled.")
-            else:
-                # Bad login details were provided. So we can't log the user in.
-                print "Invalid login details: {0}, {1}".format(username, password)
-                return HttpResponse("Invalid login details supplied.")
+                    return HttpResponse('Something went wrong')
+        return HttpResponse('You are not a tenant')
 
-    # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
         # No context variables to pass to the template system, hence the
@@ -381,26 +366,17 @@ def worker_login(request):
         # with matching credentials was found.
 
         all_workers = Worker.objects.all()
-        print all_workers
 
-        for e in all_workers:
-            test = e.user.username
-            if user is not None:
-                if username == test:
-                    if user.is_active:
-                        login(request,user)
-                        print "going to dashboard"
-                        return HttpResponseRedirect('/saas/Dashboard')
+        for worker in all_workers:
+            tester = worker.user.username
+            if username == tester:
+                if user.is_active:
+                    login(request,user)
+                    return HttpResponseRedirect('/saas/workerHome')
                 else:
-                    return HttpResponse("You are not a Worker!")
-                
-            else:
-                # Bad login details were provided. So we can't log the user in.
-                print "Invalid login details: {0}, {1}".format(username, password)
-                return HttpResponse("Invalid login details supplied.")
+                    return HttpResponse('Something went wrong')
+        return HttpResponse('You are not a worker')
 
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
@@ -425,26 +401,16 @@ def manager_login(request):
         # with matching credentials was found.
         all_managers = Manager.objects.all()
 
-        print all_managers
-
-        for e in all_managers:
-            test = e.user.username
-            if user is not None:
-                if username == test:
-                    if user.is_active:
-                        login(request,user)
-                        print "going to Dashboard"
-                        return HttpResponseRedirect('/saas/Dashboard')
+        for manager in all_managers:
+            tester = manager.user.username
+            if username == tester:
+                if user.is_active:
+                    login(request,user)
+                    return HttpResponseRedirect('/saas/Dashboard')
                 else:
-                    return HttpResponse("You are not a Manager!")
-                
-            else:
-                # Bad login details were provided. So we can't log the user in.
-                print "Invalid login details: {0}, {1}".format(username, password)
-                return HttpResponse("Invalid login details supplied.")
+                    return HttpResponse('Something went wrong')
+        return HttpResponse('You are not a manager')
 
-    # The request is not a HTTP POST, so display the login form.
-    # This scenario would most likely be a HTTP GET.
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
@@ -453,3 +419,18 @@ def manager_login(request):
 def Dashboard(request):
     return render_to_response('saas/Dashboard.html')
 
+def workerHome(request):
+    context = RequestContext(request)
+
+    current_user = request.user.username
+
+    requirement_list = Requirement.objects.all()
+    print requirement_list
+
+    # for e in worker_list:
+    #     test = e.user.username
+    #     if current_user == test:
+    #         if e
+
+    return render_to_response('saas/Tenanthome.html',
+                              {'service_list': service_list},context)
