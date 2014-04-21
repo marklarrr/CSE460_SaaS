@@ -9,44 +9,8 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render_to_response('saas/websitehomepage.html')
 
-def category(request, category_name_url):
-    # Request our context from the request passed to us.
-    context = RequestContext(request)
-
-    # Change underscores in the category name to spaces.
-    # URLs don't handle spaces well, so we encode them as underscores.
-    # We can then simply replace the underscores with spaces again to get the name.
-    category_name = category_name_url.replace('_', ' ')
-
-    # Create a context dictionary which we can pass to the template rendering engine.
-    # We start by containing the name of the category passed by the user.
-    context_dict = {'category_name': category_name}
-
-    try:
-        # Can we find a category with the given name?
-        # If we can't, the .get() method raises a DoesNotExist exception.
-        # So the .get() method returns one model instance or raises an exception.
-        category = Category.objects.get(name=category_name)
-
-        # Retrieve all of the associated pages.
-        # Note that filter returns >= 1 model instance.
-        pages = Page.objects.filter(category=category)
-
-        # Adds our results list to the template context under name pages.
-        context_dict['pages'] = pages
-        # We also add the category object from the database to the context dictionary.
-        # We'll use this in the template to verify that the category exists.
-        context_dict['category'] = category
-    except Category.DoesNotExist:
-        # We get here if we didn't find the specified category.
-        # Don't do anything - the template displays the "no category" message for us.
-        pass
-
-    # Go render the response and return it to the client.
-    return render_to_response('saas/category.html', context_dict, context)
-
 def register(request):
-    # Like before, get the request's context.
+
     context = RequestContext(request)
 
     # A boolean value for telling the template whether the registration was successful.
@@ -75,11 +39,6 @@ def register(request):
             # This delays saving the model until we're ready to avoid integrity problems.
             profile = profile_form.save(commit=False)
             profile.user = user
-
-            # Did the user provide a profile picture?
-            # If so, we need to get it from the input form and put it in the UserProfile model.
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
 
             # Now we save the UserProfile model instance.
             profile.save()
@@ -119,10 +78,6 @@ def user_login(request):
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
 
         all_tenants = UserProfile.objects.all()
 
@@ -271,8 +226,6 @@ def addWorker(request):
     # Like before, get the request's context.
     context = RequestContext(request)
 
-
-
     # If it's a HTTP POST, we're interested in processing form data.
     if request.method == 'POST':
         # Attempt to grab information from the raw form information.
@@ -330,19 +283,19 @@ def tenantHome(request):
         test = e.user.username
         if current_user == test:
             if  e.addproject == True:
-                service_list.append("addProject")
+                service_list.append("Add Project")
             if e.addRequirements == True:
-                service_list.append("addRequirements")
+                service_list.append("Add Requirements")
             if e.modifyProjectStatus == True:
-                service_list.append("modifyProjectStatus")
+                service_list.append("Modify Project Status")
             if e.viewReqStatus== True:
-                service_list.append("viewReqStatus")
+                service_list.append("View Requirement Status")
             if e.viewProjectsManager == True:
-                service_list.append("viewProjectsManager")
+                service_list.append("View Manager of Project")
             if e.modReqStatus == True:
-                service_list.append("modReqStatus")
+                service_list.append("Modify Requirement Status")
             if e.viewAssignedReqs == True:
-                service_list.append("viewAssignedReqs")
+                service_list.append("View Assigned Requirements")
 
     return render_to_response('saas/Tenanthome.html',
                               {'service_list': service_list},context)
@@ -360,10 +313,6 @@ def worker_login(request):
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
 
         all_workers = Worker.objects.all()
 
@@ -396,9 +345,6 @@ def manager_login(request):
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
 
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value), no user
-        # with matching credentials was found.
         all_managers = Manager.objects.all()
 
         for manager in all_managers:
@@ -424,10 +370,6 @@ def Dashboard(request):
     manager_list = Manager.objects.all()
     linklist = []
 
-    project_list = Project.objects.all()
-    plist = []
-
-
     for e in manager_list:
         user = e.user.username
         valid1 = e.tenant.addproject
@@ -443,7 +385,7 @@ def Dashboard(request):
             if valid3:
                 linklist.append("modifyProjectStatus")
             if valid4:
-                linklist.append("viewReqStatus")
+                linklist.append("viewRequirement")
             if valid5:
                 linklist.append("viewProjectManager")
 
@@ -455,11 +397,7 @@ def workerHome(request):
 
     current_user = request.user.username
 
-    requirement_list = Requirement.objects.all()
-    worker_requirements = []
-
     worker_list = Worker.objects.all()
-
     linklist = []
 
 
@@ -473,9 +411,7 @@ def workerHome(request):
             if valid2:
                 linklist.append("modifyProjectStatus")
 
-
-
-
+    #keeping just in case
     # for e in worker_list:
     #     user = e.user.username
     #     valid = e.tenant.viewAssignedReqs
@@ -487,7 +423,6 @@ def workerHome(request):
 
     return render_to_response('saas/workerHome.html',
                               {'linklist': linklist}, context)
-
 
 def viewRequirements(request):
 
@@ -508,15 +443,30 @@ def viewRequirements(request):
                     worker_requirements.append("Requirement Type: " + requirement.reqType)
                     worker_requirements.append("Time Required: " + str(requirement.timeReq))
 
-
     print worker_requirements
-
 
     return render_to_response('saas/viewAssignedRequirements.html',
                                 {'worker_requirements': worker_requirements}, context)
 
+def viewProjectsAddedByManager(request):
+    context = RequestContext(request)
 
+    project_list = Project.objects.all()
+    current_user = request.user.username
 
+    list = []
+
+    for e in project_list:
+        user = e.manager.user.username
+        valid = e.tenant.viewProjectsManager
+        if current_user == user and valid == 1:
+            for project in project_list:
+                test = project.manager.user.username
+                if current_user == test:
+                    list.append(project)
+
+    return render_to_response('saas/viewManagerProjects.html',
+                                {'list': list}, context)
 
 
 

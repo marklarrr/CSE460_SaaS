@@ -61,7 +61,6 @@ class Worker(models.Model):
 class Requirement(models.Model):
     tenant = models.ForeignKey(UserProfile)
     worker = models.ForeignKey(Worker)
-   # project = models.ForeignKey(Project)
     manager = models.ForeignKey(Manager)
     timeReq = models.IntegerField(default=0)
     description = models.CharField(max_length=300)

@@ -29,6 +29,7 @@ urlpatterns = patterns('',
     url(r'^saas/Dashboard/$', views.Dashboard, name='Dashboard'),
     url(r'^saas/workerHome/$', views.workerHome, name='workerHome'),
     url(r'^saas/viewAssignedRequirements/$', views.viewRequirements, name='viewRequirements'),
+    url(r'^saas/viewManagerProjects/$', views.viewProjectsAddedByManager, name='viewManagerProjects'),
 )
 '''
 if settings.DEBUG:
