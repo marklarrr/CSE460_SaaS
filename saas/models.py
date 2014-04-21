@@ -7,13 +7,13 @@ class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
-    addproject = models.BooleanField()
-    addRequirements = models.BooleanField()
-    modifyProjectStatus = models.BooleanField()
-    viewReqStatus = models.BooleanField()
-    viewProjectsManager = models.BooleanField()
-    modReqStatus = models.BooleanField()
-    viewAssignedReqs = models.BooleanField()
+    addproject = models.BooleanField(default = False)
+    addRequirements = models.BooleanField(default = False)
+    modifyProjectStatus = models.BooleanField(default = False)
+    viewReqStatus = models.BooleanField(default = False)
+    viewProjectsManager = models.BooleanField(default = False)
+    modReqStatus = models.BooleanField(default = False)
+    viewAssignedReqs = models.BooleanField(default = False)
 
     def __unicode__(self):
         return self.user.username

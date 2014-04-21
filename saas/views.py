@@ -356,20 +356,20 @@ def tenantHome(request):
 
     for e in tenant_list:
         test = e.user.username
-        if current_user == test and current_user:
-            if tenant_list.filter(addproject = 1):
+        if current_user == test:
+            if  e.addproject == True:
                 service_list.append("addProject")
-            if tenant_list.filter(addRequirements = 1):
+            if e.addRequirements == True:
                 service_list.append("addRequirements")
-            if tenant_list.filter(modifyProjectStatus = 1):
+            if e.modifyProjectStatus == True:
                 service_list.append("modifyProjectStatus")
-            if tenant_list.filter(viewReqStatus = 1):
+            if e.viewReqStatus== True:
                 service_list.append("viewReqStatus")
-            if tenant_list.filter(viewProjectsManager = 1):
+            if e.viewProjectsManager == True:
                 service_list.append("viewProjectsManager")
-            if tenant_list.filter(modReqStatus = 1):
+            if e.modReqStatus == True:
                 service_list.append("modReqStatus")
-            if tenant_list.filter(viewAssignedReqs = 1):
+            if e.viewAssignedReqs == True:
                 service_list.append("viewAssignedReqs")
 
     print service_list
