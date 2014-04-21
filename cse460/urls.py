@@ -15,15 +15,14 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-	url(r'^$', views.user_login, name='login'),
 	url(r'^saas/register/$', views.register, name='register'),# ADD THIS NEW TUPLE!
-	url(r'^saas/home/$', views.home, name='home'),
     url(r'^saas/login/$', views.user_login, name='login'),
     url(r'^saas/addProject/$', views.addProject, name='addProject'),
     url(r'^saas/addRequirement/$', views.addRequirement, name='addRequirement'),
     url(r'^saas/addManager/$', views.addManager, name='addManager'),
     url(r'^saas/addWorker/$', views.addWorker, name='addWorker'),
     url(r'^saas/Tenanthome/$', views.tenantHome, name='Tenanthome'),
+    url(r'^saas/logout/$', views.user_logout, name='logout'),
 )
 '''
 if settings.DEBUG:

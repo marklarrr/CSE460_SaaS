@@ -1,13 +1,10 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from saas.models import Category
-from saas.models import Page
+from saas.models import Category, Page, UserProfile
 from saas.forms import UserForm, UserProfileForm, addProjectForm, addRequirementForm, addManagerForm, addWorkerForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
-
-def home(request):
-    return render_to_response('saas/login.html')
+from django.contrib.auth.decorators import login_required
     
 def index(request):
     # Obtain the context from the HTTP request.
@@ -140,20 +137,31 @@ def user_login(request):
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
-        if user is not None:
-            # Is the account active? It could have been disabled.
-            if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
-                login(request, user)
-                return HttpResponseRedirect('/saas/home')
+
+        all_tenants = UserProfile.objects.all()
+        print all_tenants
+
+        for e in all_tenants:
+            test = e.user.username
+            if user is not None:
+                if username == test:
+                    if user.is_active:
+                        login(request,user)
+                        print "going to tenanthome"
+                        return HttpResponseRedirect('/saas/Tenanthome')
+                # # Is the account active? It could have been disabled.
+                # elif user.is_active and username != test:
+                #     # If the account is valid and active, we can log the user in.
+                #     # We'll send the user back to the homepage.
+                #     login(request, user)
+                #     return HttpResponseRedirect('/saas/login')
+                # else:
+                #     # An inactive account was used - no logging in!
+                #     return HttpResponse("Your account is disabled.")
             else:
-                # An inactive account was used - no logging in!
-                return HttpResponse("Your account is disabled.")
-        else:
-            # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+                # Bad login details were provided. So we can't log the user in.
+                print "Invalid login details: {0}, {1}".format(username, password)
+                return HttpResponse("Invalid login details supplied.")
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
@@ -161,6 +169,13 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render_to_response('saas/login.html', {}, context)
+
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/saas/login')
 
 def addProject(request):
     # Like before, get the request's context.
@@ -171,7 +186,6 @@ def addProject(request):
         # Attempt to grab information from the raw form information.
         # Note that we make use of both UserForm and UserProfileForm.
         addProject_form = addProjectForm(data=request.POST)
-
 
         # If the two forms are valid...
         if addProject_form.is_valid():
@@ -333,4 +347,33 @@ def addWorker(request):
             context)
 
 def tenantHome(request):
-    return render_to_response('saas/Tenanthome.html')
+    context = RequestContext(request)
+
+    current_user = request.user.username
+
+    tenant_list = UserProfile.objects.all()
+    service_list = []
+
+    for e in tenant_list:
+        test = e.user.username
+        if current_user == test and current_user:
+            if tenant_list.filter(addproject = 1):
+                service_list.append("addProject")
+            if tenant_list.filter(addRequirements = 1):
+                service_list.append("addRequirements")
+            if tenant_list.filter(modifyProjectStatus = 1):
+                service_list.append("modifyProjectStatus")
+            if tenant_list.filter(viewReqStatus = 1):
+                service_list.append("viewReqStatus")
+            if tenant_list.filter(viewProjectsManager = 1):
+                service_list.append("viewProjectsManager")
+            if tenant_list.filter(modReqStatus = 1):
+                service_list.append("modReqStatus")
+            if tenant_list.filter(viewAssignedReqs = 1):
+                service_list.append("viewAssignedReqs")
+
+    print service_list
+
+
+
+    return render_to_response('saas/Tenanthome.html',context)
