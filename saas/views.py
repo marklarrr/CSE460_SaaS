@@ -487,6 +487,22 @@ def viewAllTenantProjects(request):
     return render_to_response('saas/viewAllProjects.html',
                                 {'list': list}, context)
 
+def viewAllTenantRequirements(request):
+    context = RequestContext(request)
+
+    requirement_list = Requirement.objects.all()
+    current_user = request.user.username
+
+    list = []
+
+    for e in requirement_list:
+        user = e.tenant.user.username
+        if current_user == user:
+            list.append(e)
+
+    return render_to_response('saas/viewAllReqTenant.html',
+                                {'list': list}, context)
+
 
 
 
