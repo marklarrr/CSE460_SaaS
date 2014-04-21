@@ -6,9 +6,9 @@
 {#{% endfor %}#}
 
 <p>You have access to the following requirements:</p>
-{%  for e in worker_requirements %}
-    <p>{{ e }}</p>
-{% endfor %}
+
+<a href="/saas/viewAssignedRequirements">{{ worker_requirements.0 }}</a>
+
 
 
     {% if user.is_authenticated %}

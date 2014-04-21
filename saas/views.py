@@ -427,13 +427,19 @@ def workerHome(request):
     requirement_list = Requirement.objects.all()
     worker_requirements = []
 
-    for e in requirement_list:
-        test = e.worker.user.username
-        if current_user == test:
-            worker_requirements.append(e)
+    worker_list = Worker.objects.all()
+
+    for e in worker_list:
+        user = e.user.username
+        valid = e.tenant.viewAssignedReqs
+        if current_user == user and valid == 1:
+            for requirement in requirement_list:
+                test = requirement.worker.user.username
+                if current_user == test:
+                    worker_requirements.append(requirement)
 
     return render_to_response('saas/workerHome.html',
-                              {'worker_requirements': worker_requirements},context)
+                              {'worker_requirements': worker_requirements}, context)
 
 
 
