@@ -1,5 +1,15 @@
 <h1> Welcome Tenants</h1>
 
+
+
+<a href="/saas/addManager">Add a Manager</a><br />
+<a href="/saas/addWorker">Add a Worker</a><br />
+
+{%  for e in service_list %}
+    <p>{{ e }}</p>
+{% endfor %}
+
+
     {% if user.is_authenticated %}
     <h1>Logged in!{{ user.username }}</h1>
     <a href="/saas/logout/">Logout</a><br />
@@ -7,5 +17,3 @@
     <h1>Not logged in</h1>
     {% endif %}
 
-<a href="/saas/addManager">Add a Manager</a><br />
-<a href="/saas/addWorker">Add a Worker</a><br />

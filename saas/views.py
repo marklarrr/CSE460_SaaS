@@ -372,8 +372,5 @@ def tenantHome(request):
             if e.viewAssignedReqs == True:
                 service_list.append("viewAssignedReqs")
 
-    print service_list
-
-
-
-    return render_to_response('saas/Tenanthome.html',context)
+    return render_to_response('saas/Tenanthome.html',
+                              {'service_list': service_list},context)
