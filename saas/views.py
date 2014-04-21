@@ -147,7 +147,7 @@ def user_logout(request):
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
     # Take the user back to the homepage.
-    return HttpResponseRedirect('/saas/login')
+    return HttpResponseRedirect('/saas/websitehomepage')
 
 def addProject(request):
     # Like before, get the request's context.
@@ -425,12 +425,39 @@ def workerHome(request):
     current_user = request.user.username
 
     requirement_list = Requirement.objects.all()
-    print requirement_list
+    worker_requirements = []
 
-    # for e in worker_list:
-    #     test = e.user.username
-    #     if current_user == test:
-    #         if e
+    for e in requirement_list:
+        test = e.worker.user.username
+        if current_user == test:
+            worker_requirements.append(e)
 
-    return render_to_response('saas/Tenanthome.html',
-                              {'service_list': service_list},context)
+    return render_to_response('saas/workerHome.html',
+                              {'worker_requirements': worker_requirements},context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

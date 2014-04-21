@@ -5,6 +5,11 @@
 {#    <p>{{ e }}</p>#}
 {#{% endfor %}#}
 
+<p>You have access to the following requirements:</p>
+{%  for e in worker_requirements %}
+    <p>{{ e }}</p>
+{% endfor %}
+
 
     {% if user.is_authenticated %}
     <h1>Logged in!{{ user.username }}</h1>
