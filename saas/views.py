@@ -468,7 +468,24 @@ def viewProjectsAddedByManager(request):
     return render_to_response('saas/viewManagerProjects.html',
                                 {'list': list}, context)
 
+def viewAllTenantProjects(request):
+    context = RequestContext(request)
 
+    project_list = Project.objects.all()
+    current_user = request.user.username
+
+    list = []
+
+    for e in project_list:
+        user = e.tenant.user.username
+        if current_user == user:
+            for project in project_list:
+                test = project.tenant.user.username
+                if current_user == test:
+                    list.append(project)
+
+    return render_to_response('saas/viewAllProjects.html',
+                                {'list': list}, context)
 
 
 
