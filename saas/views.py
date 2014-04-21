@@ -518,6 +518,3 @@ def viewAllTenantRequirements(request):
 
 
 
-
-
-

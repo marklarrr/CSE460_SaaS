@@ -1,4 +1,6 @@
-<h1>MANAGER DASHBOARD</h1>
+<h1>Manager Dashboard</h1>
+
+<p>Select the action you'd like you take:</p>
 
 {% if linklist.0 == 'addProject' or linklist.1 == 'addProject' or linklist.2 == 'addProject' or linklist.3 == 'addProject' or linklist.4 == 'addProject' %}
     <p><a href="/saas/addProject/">Add Project</a></p>
@@ -19,7 +21,6 @@
 
 
     {% if user.is_authenticated %}
-    <h1>Logged in!{{ user.username }}</h1>
     <a href="/saas/logout/">Logout</a><br />
     {% else %}
     <h1>Not logged in</h1>
