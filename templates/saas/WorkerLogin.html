@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>Log In</title>
+    </head>
+
+    {% if user.is_authenticated %}
+    <h1>Logged in!{{ user.username }}</h1>
+    <a href="/saas/logout/">Logout</a><br />
+    {% else %}
+    <h1>Not logged in</h1>
+    {% endif %}
+
+    <body>
+        <h1>Worker Log In</h1>
+
+        <form id="login_form" method="post" action="/saas/WorkerLogin/">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" name="password" value="" size="50" />
+            <br />
+
+            <input type="submit" value="submit" />
+        </form>
+
+    </body>
+</html>
