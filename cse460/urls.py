@@ -23,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^saas/addWorker/$', views.addWorker, name='addWorker'),
     url(r'^saas/Tenanthome/$', views.tenantHome, name='Tenanthome'),
     url(r'^saas/logout/$', views.user_logout, name='logout'),
+    url(r'^saas/websitehomepage/$', views.index, name='home'),
 )
 '''
 if settings.DEBUG:

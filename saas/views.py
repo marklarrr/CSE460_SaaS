@@ -7,21 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
     
 def index(request):
-    # Obtain the context from the HTTP request.
-    context = RequestContext(request)
-
-    # Query for categories - add the list to our context dictionary.
-    category_list = Category.objects.order_by('-likes')[:5]
-    context_dict = {'categories': category_list}
-
-    # The following two lines are new.
-    # We loop through each category returned, and create a URL attribute.
-    # This attribute stores an encoded URL (e.g. spaces replaced with underscores).
-    for category in category_list:
-        category.url = category.name.replace(' ', '_')
-
-    # Render the response and return to the client.
-    return render_to_response('saas/index.html', context_dict, context)
+    return render_to_response('saas/websitehomepage.html')
 
 def category(request, category_name_url):
     # Request our context from the request passed to us.
